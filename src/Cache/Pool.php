@@ -23,7 +23,6 @@ class Pool implements CacheItemPoolInterface
     public function getItem(string $key): Item
     {
         $value = $this->cache->tags($this->tags)->get($key);
-        Log::debug('AuthCache getItem', ['key' => $key, 'value' => $value]);
 
         return $value ?: Item::miss($key);
     }
@@ -37,8 +36,6 @@ class Pool implements CacheItemPoolInterface
 
     public function hasItem(string $key): bool
     {
-        Log::debug('AuthCache hasItem', ['key' => $key]);
-
         return $this->getItem($key)->isHit();
     }
 
@@ -49,8 +46,6 @@ class Pool implements CacheItemPoolInterface
 
     public function deleteItem(string $key): bool
     {
-        Log::debug('AuthCache deleteItem', ['key' => $key]);
-
         return $this->cache->tags($this->tags)->forget($key);
     }
 
@@ -67,8 +62,6 @@ class Pool implements CacheItemPoolInterface
 
     public function save(Item|CacheItemInterface $item): bool
     {
-        Log::debug('AuthCache save', ['item' => $item]);
-
         return $this->cache->tags($this->tags)->put($item->getKey(), $item, $item->expiration);
     }
 
